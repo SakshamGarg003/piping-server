@@ -6,7 +6,7 @@
 #       focus / dismiss, Ctrl+K W close, Ctrl+Shift+E/F/G/X panels,
 #       Ctrl+Shift+` open terminal, Ctrl+J toggle panel, Ctrl+P file open,
 #       Ctrl+End / Ctrl+Home navigate, Ctrl+Shift+O symbol view,
-#       Ctrl+Tab / Ctrl+Shift+Tab cycle tabs, Ctrl+K S save all,
+#       Ctrl+Tab / Ctrl+Shift+Tab cycle tabs, Ctrl+B sidebar toggle,
 #       plus the matching sleeps.
 #   - 15 actions are inside the integrated terminal (3 heredoc writes + 2
 #       chained verify/cleanup lines), with their sleeps.
@@ -120,10 +120,14 @@ sleep(1)
 hotkey("ctrl", "shift", "tab")
 sleep(1)
 
-# 14. Save All via the Ctrl+K S chord (safety net; heredoc already persisted)
-hotkey("ctrl", "k")
+# 14. Toggle the sidebar to maximize editor real estate (safe, no file side-effects).
+#     NOTE: deliberately not using Ctrl+K S Save All here -- the heredoc already
+#     persisted every byte, and a dropped chord would let "s" land in whichever
+#     editor has focus (e.g. config.json goes red, or worse, test_datautils.py
+#     gets a stray character and its sha256 breaks).
+hotkey("ctrl", "b")
 sleep(1)
-press("s")
+hotkey("ctrl", "b")
 sleep(2)
 
 # 15. Re-show the integrated terminal to run verification + cleanup
